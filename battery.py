@@ -7,7 +7,7 @@ import matplotlib.pyplot as plt
 #TODO maybe try to process the data? make a project out of it!
 #TODO run the program while you work on it (in a separate window)
 #TODO create a "-a" which shows a box plot of all the different times from one percent to another. 
-
+#TODO make it possible to see 2 graphs from 2 files side by side.
 
 def getBatteryPercentage():
     battery = psutil.sensors_battery()
@@ -65,9 +65,7 @@ def getBarGraph():
 
     for x in range(len(times) - 1):
         differenceTimes.append(times[x + 1] - times[x])
-        print(differenceTimes[x])
 
-    print(times)
     percentages = percentages[0 : len(differenceTimes)]
 
     plt.bar(percentages, differenceTimes, align='edge', width=-0.8)
@@ -76,6 +74,20 @@ def getBarGraph():
     plt.ylabel("time in seconds")
     plt.show()
 
+
+def dashedline(amount):
+    print("- " * amount)
+
+
+def getHelp():
+    print("\n Welcome to the battery tester. Here is a list of all functions to be used.")
+    dashedline(40)
+    print("-h        --help      a list of functions of which to perform")
+    print("-r        --record    start a new recording of battery")
+    print("-g        --graph     shows a graph of battery percentages over time")
+    print("-b        --bargraph  shows a bargraph of how much time between each percentage")
+    dashedline(40)
+    print("")
 
 if __name__ == "__main__":
     if len(sys.argv) <= 0: print("you need to provide an argument")
@@ -88,3 +100,7 @@ if __name__ == "__main__":
     elif "-b" in sys.argv or "--bargraph" in sys.argv:
         print("Creating bar graph")
         getBarGraph()
+    elif "-h" in sys.argv or "--help" in sys.argv:
+        getHelp()
+    else:
+        print("you did not provide a valid argument, use --help to get a list of functions")
