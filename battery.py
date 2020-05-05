@@ -47,13 +47,44 @@ def getGraph():
     plt.show()
 
 
+def getBarGraph():
+    percentages = []
+    times = []
+    differenceTimes = []
+
+    with open("battery_data.txt", "r") as file:
+        lines = file.readlines()
+        for x in lines:
+            x = x.split(",")
+
+            percentage = x[0].rstrip("%")
+            time = x[1].rstrip("\n")
+           
+            percentages.append(int(percentage))
+            times.append(float(time))
+
+    for x in range(len(times) - 1):
+        differenceTimes.append(times[x + 1] - times[x])
+        print(differenceTimes[x])
+
+    print(times)
+    percentages = percentages[0 : len(differenceTimes)]
+
+    plt.bar(percentages, differenceTimes, align='edge', width=-0.8)
+    plt.xlim(percentages[0] + 1, percentages[len(percentages) - 1] - 1) 
+    plt.xlabel("percentage")
+    plt.ylabel("time in seconds")
+    plt.show()
+
+
 if __name__ == "__main__":
-	if len(sys.argv) <= 0: print("you need to provide an argument")
-	if "-g" in sys.argv or "--graph" in sys.argv:
-		print("creating graph") 
-		getGraph()
-	elif "-r" in sys.argv or "--record" in sys.argv:
-		print("recording")
-		getBatteryPercentage()		
-
-
+    if len(sys.argv) <= 0: print("you need to provide an argument")
+    if "-g" in sys.argv or "--graph" in sys.argv:
+        print("creating graph") 
+        getGraph()
+    elif "-r" in sys.argv or "--record" in sys.argv:
+        print("recording")
+        getBatteryPercentage()
+    elif "-b" in sys.argv or "--bargraph" in sys.argv:
+        print("Creating bar graph")
+        getBarGraph()
