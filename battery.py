@@ -4,7 +4,8 @@ import sys
 import matplotlib.pyplot as plt
 
 
-# TODO probably we need to do something about the bar graph.
+# TODO Probably we need to do something about the bar graph.
+# TODO in linux the psutil gives more values than only when the percentage changes.
 
 
 def getBatteryPercentage(file, sleep_time = 10):
@@ -37,7 +38,7 @@ def getGraph(files):
                 percentage = x[0].rstrip("%")
                 time = x[1].rstrip("\n")
 
-                percentages.append(int(percentage))
+                percentages.append(percentage)
                 times.append(float(time) / 60)
 
         plt.plot(times, percentages, label=file.name)
@@ -66,7 +67,7 @@ def getBarGraph(files):
                 percentage = x[0].rstrip("%")
                 time = x[1].rstrip("\n")
 
-                percentages.append(int(percentage))
+                percentages.append(percentage)
                 times.append(float(time))
 
         for x in range(len(times) - 1):
@@ -92,7 +93,7 @@ def dashedline(amount):
 
 
 def getHelp():
-    print(" - - - - - ")
+    dashedline(5)
     print("\n Welcome to the battery tester. Here is a list of all functions to be used.")
     dashedline(45)
     print("-h                   -- help                  a list of functions of which to perform")
@@ -106,10 +107,9 @@ def getHelp():
 if __name__ == "__main__":
     if len(sys.argv) <= 0:
         print("you need to provide an argument")
-        exit()
-    if len(sys.argv) <= 2 and (not ("-h" in sys.argv or "--help" in sys.argv)):
-        print("please provide at least one fil after the argument.")
-        exit()
+        print("see the following help guide")
+        getHelp()
+        exit() 
 
     files = sys.argv[2:]
 
@@ -118,7 +118,13 @@ if __name__ == "__main__":
         getGraph(files)
     elif "-r" in sys.argv or "--record" in sys.argv:
         print("began recording battery")
-        getBatteryPercentage(files[0] + ".txt")
+
+        try:
+            if sys.argv[2].split(".")[1] == "txt": getBatteryPercentage(files[0])
+        except IndexError:
+            getBatteryPercentage(files[0] + ".txt")
+ 
+
     elif "-b" in sys.argv or "--bargraph" in sys.argv:
         print("Creating bar graph")
         getBarGraph(files)
