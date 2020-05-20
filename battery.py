@@ -8,17 +8,17 @@ import matplotlib.pyplot as plt
 # TODO in linux the psutil gives more values than only when the percentage changes.
 
 
-def getBatteryPercentage(file, sleep_time = 10):
+def getBatteryPercentage(file_name, sleep_time = 10):
     battery = psutil.sensors_battery()
     percent = str(battery.percent)
 
-    with open(file, "w") as file:
+    with open(file_name, "w") as file:
         start = time.time()
         while True:
             battery = psutil.sensors_battery()
             if percent == battery.percent:
-                time.sleep(sleep_time)
                 print("... ... ...")
+                time.sleep(sleep_time)
             else:
                 print(str(battery.percent) + "% at time " + str(time.time() - start))
                 file.write(str(battery.percent) + "%," + str(time.time() - start) + "\n")
