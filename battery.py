@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 
 # TODO Probably we need to do something about the bar graph.
 # TODO in linux the psutil gives more values than only when the percentage changes.
+# tODO refactor code, don't yet to different files, but would be nice to have utility functions.
 
 
 def getBatteryPercentage(file_name, sleep_time = 10):
